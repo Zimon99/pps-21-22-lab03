@@ -27,11 +27,15 @@ object Lists extends App:
       case Cons(h, t) => Cons(h, t)
       case Nil() => Nil()
 
-    def append[A](left: List[A], right: List[A]): List[A] = (left, right) match
-      case (Cons(h, t), l1) => Cons(h, append(t, l1))
-      case (_, Cons(h, t)) => right
+    def append[A](left: List[A], right: List[A]): List[A] = left match
+      case Cons(h, t) => Cons(h, append(t, right))
+      case _ => right
 
-    def flatMap[A,B](l: List[A])(f: A => List[B]): List[B] =
+    def flatMap[A,B](l: List[A])(f: A => List[B]): List[B] = l match
+      case Cons(h, t) => append(f(h), flatMap(t)(f))
+      case Nil() => Nil()
+
+    def mapWithFlatMap[A, B](l: List[A])(mapper: A => B): List[B] = flatMap(l)()
 
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
