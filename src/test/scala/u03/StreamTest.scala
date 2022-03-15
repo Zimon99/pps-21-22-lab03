@@ -2,17 +2,23 @@ package u03
 
 import org.junit.*
 import org.junit.Assert.*
-import u03.Streams.Stream
+import u03.Streams.*
 import u03.Streams.Stream.*
+import u03.Lists.List.*
 
 class StreamTest:
 
-  var str = Stream.iterate(0)(_ + 1) // {0,1,2,3,..}
-  var str1 = Stream.take(str)(10) // {0,1,2,3, .. ,9}
+  val s = Stream.take(Stream.iterate(0)(_ + 1))(10)
+
 
   @Test def testDrop() =
-    assertEquals(toList(cons(9, empty())), toList( drop(str1)(9)))
+    assertEquals(Cons(6, Cons(7, Cons(8, Cons(9, Nil())))), toList( Stream.drop(s)(6)))
+
+  @Test def testConstant() =
+    assertEquals(Cons("x", Cons("x", Cons("x", Cons("x", Cons("x", Nil()))))), toList(Stream.take(constant("x"))(5)))
 
   
+
+
 
 

@@ -43,6 +43,10 @@ object Streams extends App:
       case (Cons(head, tail), n) => Cons(() => head(), () => tail())
       case _ => Empty()
 
+    // Es6
+    def constant[A](k: A): Stream[A] =
+      iterate(k)(k => k)
+
 
   end Stream
 
