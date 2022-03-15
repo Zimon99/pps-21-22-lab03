@@ -3,12 +3,18 @@ package u03
 import org.junit.*
 import org.junit.Assert.*
 import Lists.*
+import u02.Optionals.*
+import u02.Modules.Person
 
 class ListTest:
   import List.*
 
+
   val l: List[Int] = Cons(10, Cons(20, Cons(30, Nil())))
   val l1: List[Int] = Cons(50, Nil())
+  val l2: List[Person] = Cons(Person.Teacher("P1", "C1"), Nil())
+  val l3: List[Person] = Cons(Person.Teacher("P1", "C1"), Cons(Person.Teacher("P2", "C2"), Cons(Person.Teacher("P3", "C3"),Nil())))
+  val l4: List[Person] = Cons(Person.Student("P1", 23), Cons(Person.Teacher("P2", "C2"), Cons(Person.Teacher("P3", "C3"),Nil())))
 
   @Test def testSum() =
     assertEquals(0, sum(Nil()))
@@ -42,3 +48,13 @@ class ListTest:
   @Test def testFilterWithFlatMap() =
     assertEquals(Cons(20, Cons(30, Nil())), filterWithFlatMap(l)(_ >= 20))
     assertEquals(Cons(10, Cons(30, Nil())), filterWithFlatMap(l)(_ != 20))
+
+  @Test def testMax() =
+    import u02.Optionals.Option.*
+    assertEquals(Some(25), max(Cons(10, Cons(25, Cons(20, Nil())))))
+    assertEquals(max(Nil()), Option.None())
+
+  @Test def testExtractCoursesFromPersons() =
+    assertEquals(Cons("C1", Nil()), extractCoursesFromPersons(l2))
+    assertEquals(Cons("C1", Cons("C2", Cons("C3", Nil()))), extractCoursesFromPersons(l3))
+    assertEquals(Cons("C2", Cons("C3", Nil())), extractCoursesFromPersons(l4))

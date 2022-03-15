@@ -1,5 +1,7 @@
 package u03
 
+import u02.Modules.Person.Teacher
+
 object Lists extends App:
 
   // A generic linkedlist
@@ -50,7 +52,38 @@ object Lists extends App:
       flatMap(l1)(caster)
 
     // Es 2
-    def max(l: List[Int]): Option[Int] =
+    import u02.Optionals.*
+    import u02.Optionals.Option.*
+    def max(l: List[Int]): Option[Int] = l match
+      case Cons(h, t) if h >= orElse(max(t), h) => Option.Some(h)
+      case Cons(h, t) => max(t)
+      case Nil() => Option.None()
+
+    // Es3
+    import u02.Modules.Person
+    def extractCoursesFromPersons[A](l: List[Person]): List[String] =
+      // Soluzione senza flatMap (con match sulla l)
+      //case Cons(Person.Teacher(n, c), t) => Cons(c, extractCoursesFromPersons(t))
+      //case Cons(Person.Student(n, c), t) => extractCoursesFromPersons(t)
+      //case Nil() => Nil()
+
+      // Soluzione con flatmap e pred dichiarata prima.
+      val pred = (x: Person) => x match
+        case Person.Teacher(n, c) => Cons(c, Nil())
+        case Person.Student(n, c) => Nil()
+      flatMap(l)(pred)
+
+      // Soluzione con flatmap e pred integrata come body.
+      //flatMap(l)({ case Person.Teacher(n, c) => Cons(c, Nil()) ; case Person.Student(n, c) => Nil() })
+
+      // Es4
+
+
+
+
+
+
+
 
 
 
