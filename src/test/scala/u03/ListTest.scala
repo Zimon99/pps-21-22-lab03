@@ -2,9 +2,9 @@ package u03
 
 import org.junit.*
 import org.junit.Assert.*
-import Lists.*
 import u02.Optionals.*
 import u02.Modules.Person
+import u03.Lists.List
 
 class ListTest:
   import List.*

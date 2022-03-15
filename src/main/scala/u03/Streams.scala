@@ -39,6 +39,9 @@ object Streams extends App:
 
     // Es5
     def drop[A](stream: Stream[A])(n: Int): Stream[A] = (stream, n) match
+      case (Cons(head, tail), n) if n > 0 => drop(tail())(n - 1)
+      case (Cons(head, tail), n) => Cons(() => head(), () => tail())
+      case _ => Empty()
 
 
   end Stream
