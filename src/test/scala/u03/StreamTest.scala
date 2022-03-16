@@ -17,7 +17,7 @@ class StreamTest:
   @Test def testConstant() =
     assertEquals(Cons("x", Cons("x", Cons("x", Cons("x", Cons("x", Nil()))))), toList(Stream.take(constant("x"))(5)))
 
-  
+
 
 
 

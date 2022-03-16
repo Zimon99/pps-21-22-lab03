@@ -47,6 +47,9 @@ object Streams extends App:
     def constant[A](k: A): Stream[A] =
       iterate(k)(k => k)
 
+    // Es7
+    val fibs: Stream[Int] = iterate(0)(_ + 2)
+
 
   end Stream
 
