@@ -48,7 +48,17 @@ object Streams extends App:
       iterate(k)(k => k)
 
     // Es7
-    val fibs: Stream[Int] = iterate(0)(_ + 2)
+    def fib(n: Int): Int = n match
+      case 0 => 0
+      case 1 => 1
+      case _ => fib(n - 1) + fib(n - 2)
+      
+    def fibs: Stream[Int] =
+      def fibsRec(n: Int): Stream[Int] =
+        cons(fib(n), fibsRec(n+1))
+      fibsRec(0)  
+      
+
 
 
   end Stream
