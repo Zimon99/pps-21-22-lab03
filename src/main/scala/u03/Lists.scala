@@ -61,23 +61,33 @@ object Lists extends App:
 
     // Es3
     import u02.Modules.Person
-    def extractCoursesFromPersons[A](l: List[Person]): List[String] =
-      // Soluzione senza flatMap (con match sulla l)
-      //case Cons(Person.Teacher(n, c), t) => Cons(c, extractCoursesFromPersons(t))
-      //case Cons(Person.Student(n, c), t) => extractCoursesFromPersons(t)
-      //case Nil() => Nil()
+    def extractCoursesFromPersonsWithoutFlatMap[A](l: List[Person]): List[String] = l match
+       case Cons(Person.Teacher(n, c), t) => Cons(c, extractCoursesFromPersonsWithoutFlatMap(t))
+       case Cons(Person.Student(n, c), t) => extractCoursesFromPersonsWithoutFlatMap(t)
+       case Nil() => Nil()
 
-      // Soluzione con flatmap e pred dichiarata prima.
+    def extractCoursesFromPersonsWithFlatMap1[A](l: List[Person]): List[String] =
       val pred = (x: Person) => x match
         case Person.Teacher(n, c) => Cons(c, Nil())
         case Person.Student(n, c) => Nil()
       flatMap(l)(pred)
 
-      // Soluzione con flatmap e pred integrata come body.
-      //flatMap(l)({ case Person.Teacher(n, c) => Cons(c, Nil()) ; case Person.Student(n, c) => Nil() })
+    def extractCoursesFromPersonsWithFlatMap2[A](l: List[Person]): List[String] =
+      flatMap(l)({ case Person.Teacher(n, c) => Cons(c, Nil()) ; case Person.Student(n, c) => Nil() })
 
-      // Es4
+    // Es4
+    def foldLeft(l: List[Int])(acc: Int)(pred: (Int, Int) => Int): Int = l match
+      case Cons(h, t) => foldLeft(t)(pred(acc, h))(pred)
+      case Nil() => acc
 
+    def reverseList(l: List[Int]): List[Int] = l match
+      case Cons(h, t) => append(reverseList(t), Cons(h, Nil()))
+      case Nil() => Nil()
+
+    def foldRight(l: List[Int])(acc: Int)(pred: (Int, Int) => Int): Int = l match
+      case Cons(h, t) => foldRight(t)(pred(h, acc))(pred)
+      case Nil() => acc
+  
   
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60

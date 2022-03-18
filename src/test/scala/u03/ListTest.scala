@@ -54,7 +54,25 @@ class ListTest:
     assertEquals(Some(25), max(Cons(10, Cons(25, Cons(20, Nil())))))
     assertEquals(max(Nil()), Option.None())
 
-  @Test def testExtractCoursesFromPersons() =
-    assertEquals(Cons("C1", Nil()), extractCoursesFromPersons(l2))
-    assertEquals(Cons("C1", Cons("C2", Cons("C3", Nil()))), extractCoursesFromPersons(l3))
-    assertEquals(Cons("C2", Cons("C3", Nil())), extractCoursesFromPersons(l4))
+  def testForExtractCourses(f: List[Person] => List[String]) =
+    assertEquals(Cons("C1", Nil()), f(l2))
+    assertEquals(Cons("C1", Cons("C2", Cons("C3", Nil()))), f(l3))
+    assertEquals(Cons("C2", Cons("C3", Nil())), f(l4))
+
+  @Test def testExtractCoursesFromPersonsWithoutFlatMap() =
+    testForExtractCourses(extractCoursesFromPersonsWithoutFlatMap)
+
+  @Test def testExtractCoursesFromPersonsWithFlatMap1() =
+    testForExtractCourses(extractCoursesFromPersonsWithFlatMap1)
+
+  @Test def testExtractCoursesFromPersonsWithFlatMap2() =
+    testForExtractCourses(extractCoursesFromPersonsWithFlatMap2)
+
+  @Test def testFoldLeft() =
+    assertEquals(-16, foldLeft(Cons(3,Cons(7,Cons(1,Cons(5, Nil())))))(0)(_ - _))
+
+  @Test def testReverseList() =
+    assertEquals(Cons(30, Cons(20, Cons(10, Nil()))), reverseList(l))
+
+  @Test def testFoldRight() =
+    assertEquals(-8, foldRight(reverseList(Cons(3,Cons(7,Cons(1,Cons(5, Nil()))))))(0)(_ - _))
