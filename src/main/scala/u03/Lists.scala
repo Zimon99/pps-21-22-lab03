@@ -61,18 +61,18 @@ object Lists extends App:
 
     // Es3
     import u02.Modules.Person
-    def extractCoursesFromPersonsWithoutFlatMap[A](l: List[Person]): List[String] = l match
+    def extractCoursesFromPersonsWithoutFlatMap(l: List[Person]): List[String] = l match
        case Cons(Person.Teacher(n, c), t) => Cons(c, extractCoursesFromPersonsWithoutFlatMap(t))
        case Cons(Person.Student(n, c), t) => extractCoursesFromPersonsWithoutFlatMap(t)
        case Nil() => Nil()
 
-    def extractCoursesFromPersonsWithFlatMap1[A](l: List[Person]): List[String] =
+    def extractCoursesFromPersonsWithFlatMap1(l: List[Person]): List[String] =
       val pred = (x: Person) => x match
         case Person.Teacher(n, c) => Cons(c, Nil())
         case Person.Student(n, c) => Nil()
       flatMap(l)(pred)
 
-    def extractCoursesFromPersonsWithFlatMap2[A](l: List[Person]): List[String] =
+    def extractCoursesFromPersonsWithFlatMap2(l: List[Person]): List[String] =
       flatMap(l)({ case Person.Teacher(n, c) => Cons(c, Nil()) ; case Person.Student(n, c) => Nil() })
 
     // Es4
@@ -87,7 +87,7 @@ object Lists extends App:
     def foldRight(l: List[Int])(acc: Int)(pred: (Int, Int) => Int): Int = l match
       case Cons(h, t) => foldRight(t)(pred(h, acc))(pred)
       case Nil() => acc
-  
+
   
   val l = List.Cons(10, List.Cons(20, List.Cons(30, List.Nil())))
   println(List.sum(l)) // 60
